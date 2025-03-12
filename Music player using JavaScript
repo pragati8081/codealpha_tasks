@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #282c34;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .music-player {
+            text-align: center;
+            background: #444;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .controls button {
+            font-size: 20px;
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            background: #ff5a5f;
+            color: white;
+            border-radius: 50%;
+        }
+        .controls button:hover {
+            background: #e0484d;
+        }
+    </style>
+</head>
+<body>
+    <div class="music-player">
+        <h2 id="song-title">Song Name</h2>
+        <audio id="audio-player" src=""></audio>
+        <div class="controls">
+            <button id="prev">⏮</button>
+            <button id="play-pause">▶️</button>
+            <button id="next">⏭</button>
+        </div>
+    </div>
+    
+    <script>
+        const audioPlayer = document.getElementById("audio-player");
+        const playPauseBtn = document.getElementById("play-pause");
+        const prevBtn = document.getElementById("prev");
+        const nextBtn = document.getElementById("next");
+        const songTitle = document.getElementById("song-title");
+
+        const songs = [
+            { title: "Song 1", src: "songs/song1.mp3" },
+            { title: "Song 2", src: "songs/song2.mp3" },
+            { title: "Song 3", src: "songs/song3.mp3" }
+        ];
+
+        let currentSongIndex = 0;
+
+        function loadSong(index) {
+            songTitle.textContent = songs[index].title;
+            audioPlayer.src = songs[index].src;
+        }
+
+        function playPause() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playPauseBtn.textContent = "⏸";
+            } else {
+                audioPlayer.pause();
+                playPauseBtn.textContent = "▶️";
+            }
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            loadSong(currentSongIndex);
+            audioPlayer.play();
+            playPauseBtn.textContent = "⏸";
+        }
+
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            loadSong(currentSongIndex);
+            audioPlayer.play();
+            playPauseBtn.textContent = "⏸";
+        }
+
+        playPauseBtn.addEventListener("click", playPause);
+        nextBtn.addEventListener("click", nextSong);
+        prevBtn.addEventListener("click", prevSong);
+
+        loadSong(currentSongIndex);
+    </script>
+</body>
+</html>
